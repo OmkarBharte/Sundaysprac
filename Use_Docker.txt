@@ -1,0 +1,206 @@
+#PBCreateR
+
+*Google Search -- "AWS Console Login"
+*login as root user
+*select Mumbai server(right side corner)
+*select serices(left corner)
+*select compute
+*select EC2
+*click running instance
+*Launch new Instance
+*give name
+*select amazon linux
+*select free tire & 64 bit
+*Key Pair (create new key pair)
+	-give name
+	-select .ppk (for putty)
+	-create key pair
+*select 1 instance & Launch Instance
+*success click infront id(in blue color like link)
+*select instance by clicking checkbox
+*down select security (between details & Networking)
+*select security groups(in blue color like link)
+*scroll select "Edit inbound rules"
+*Add rule left down side
+*select type - all trafic & source - Anywhere-IPv4 Save
+*come back to instances shows in left
+*select instance by clicking checkbox
+*select connect (near Instance State)
+*copy that Public IP address
+
+*Now Open Putty software
+*in putty software paste that Public IP address
+*select port 22(by default 22)
+*in left select Connection
+	-Data
+	-Auto-login Username :-ec2-user (user name shown below ip address on chrome)
+*then in left side select SSH
+	-Auth
+	-private key file for authentication (browse downloaded file at creating key pair)
+*Open
+
+Now in putty ->
+
+*sudo yum update
+	-y //(yes)
+(install git)
+*sudo yum install git
+	-y //(yes)
+*git -v //(check version)
+(install docker)
+*docker -v //(check version)
+*sudo yum search docker //(search docker is available or not)
+*sudo yum install docker //(to install docker)
+	-y //(yes)
+*docker -v //(check version)
+*sudo yum search docker
+*sudo systemctl enable docker
+*sudo systemctl status docker //(inactive)
+*sudo systemctl start docker //(start docker)
+*sudo systemctl status docker //(active running)											
+*sudo docker images //(empty)															
+*sudo docker ps //(Container Which running)	
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+																			|In Google dockerhub.com
+																			|open docker.hub
+																			|search nginx
+*sudo docker pull hello-world
+Pull an image or a repository from a registry															|search asp.net
+*sudo docker images //(not empty)														|	select ASP.NET Core Runtime
+*sudo docker pull nginx															   ->	|	copy commend given in right side
+*sudo docker pull mcr.microsoft.com/dotnet/aspnet											|-----------------------------------------
+*sudo docker images //(not empty)														|search nginx
+*sudo docker run --name some-nginx -d -p 8080:80 nginx										|scrll down  see Exposing external port
+*sudo docker run -it --rm -d -p 8000:80 --name aspnetcore_sample mcr.microsoft.com/dotnet/samples:aspnetapp	   ->	|	copy ($ dock...............)
+*sudo docker kill (container id put here)													|
+																			|
+*Now Open chrome																	|
+*type http://(Public IP address):8000													|
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Now for store git file in Image
+
+*first login in your github
+*create new repository
+*give name(vijaysales) - select Add a ReadMe file
+*create repository
+
+
+Now in file manager(My computer)
+
+*type 'cmd' in up side
+*git clone URL
+*cd vijaysales
+*npm init(complete process)
+*npm install
+
+Now open this folder in vscode
+*in package.json add dependencies below homepage (copy and paste below)
+"dependencies": {
+    "express": "^4.18.1"
+  }
+
+---------------------------------------------------------------------------------------------------------------------------
+*create file server.js
+	(copy & paste Below)
+var express=require('express');
+var app=express();
+
+app.get("/",(req, res)=>{
+    res.send(
+        "<h1>Vijay Sales</h1>"
+        +"<hr/>"
+        +"<h3>Smart device for sales</h3>"
+        +"<br/>"
+        +"<ol>"
+        +"<li>Laptops</li>"
+        +"<li>Mobiles</li>"
+        +"<li>Holo Lens</li>"
+        +"<li>Holographic Device</li>"
+        +"<li>Smart Watches</li>"
+        +"<li>Gaming Console</li>"
+        +"</ol>"
+    );
+});
+app.get("/aboutus",(req, res)=>{
+    res.send(
+        "<h1>Vijay Sales</h1>"
+        +"<hr/>"
+        +"<h3>Smart PBCreateR</h3>"
+        +"<br/>"
+        +"<ol>"
+        +"<li>P</li>"
+        +"<li>B</li>"
+        +"<li>C</li>"
+        +"</ol>"
+    );
+});
+
+app.get("/login",(req, res)=>{
+    res.send(
+            "<h1>Vijay Sales </h1>"
+            + "<h3>Login</h3>"
+            +"<hr/>"
+            +"<form>"
+            + "<input/>"
+            + "<br/>"
+            +"<input/> "
+            +"<button>login</button>"
+            + "</form>"
+    );
+});
+
+var server=app.listen(9000);
+console.log("Vijay Sales Online shopping running on port 9000");
+---------------------------------------------------------------------------------------------------------------------------
+*create Dockerfile
+(copy & paste Below)
+	FROM node:7
+	WORKDIR /app
+	COPY package.json /app
+	RUN npm install
+	COPY . /app
+	CMD node server.js
+	EXPOSE 9000
+---------------------------------------------------------------------------------------------------------------------------
+*create file .gitignore
+(copy & paste Below)
+	/node_modules
+	*lock.json
+---------------------------------------------------------------------------------------------------------------------------
+*save all files(check on local host is working or not)
+type in cmd node server.js
+in chrome http://localhost:9000
+
+
+Now in cmd
+
+*git status
+*git add .
+*git commit -m "Updated"
+*git push
+*check in githunb(refresh if not shown)
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+Now in putty continue
+
+*git clone URL
+*ls
+*cd vijaysales(file name)
+*ls
+*sudo docker build -t vijaysales .(dot)
+build an images from Dockerfile
+
+//this will make our own image
+*sudo docker images //(vijaysales shown in list)
+
+*sudo docker run --name vijayserver -d -p 9000:9000 vijaysales
+--name:-assigns name to he container
+-d:-Run container in background and print container ID
+-p:-Publish a container's port(s) to the host
+
+*sudo docker ps
+use to list the containers
+
+*Now Open chrome
+*type http://(Public IP address):9000
